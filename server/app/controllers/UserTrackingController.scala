@@ -5,11 +5,11 @@ import javax.inject.Inject
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import akka.stream.Materializer
 import play.api.Logger
-import play.api.mvc._
 import play.api.libs.streams._
-import play.api.mvc.Results.Ok
+import play.api.mvc._
 
-class UserTrackingController @Inject()(implicit system: ActorSystem, materializer: Materializer, webJarAssets: WebJarAssets) {
+class UserTrackingController @Inject()(implicit system: ActorSystem, materializer: Materializer, webJarAssets: WebJarAssets)
+  extends InjectedController{
 
   def socket = WebSocket.accept[String, String] { request =>
     ActorFlow.actorRef(out => UserActor.props(out))
@@ -49,7 +49,7 @@ class UserActor(out: ActorRef) extends Actor {
 
       previousDestination foreach LiveUsers.dec
 
-      previousDestination
+//      previousDestination
 
       Logger.info(s"Received '$msg' from $out")
   }

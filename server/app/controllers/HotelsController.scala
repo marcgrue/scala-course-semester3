@@ -2,12 +2,14 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 
+import autowire.ApiServer
 import autowire.Core.Request
-import play.api.mvc.{Action, InjectedController}
+import play.api.mvc.InjectedController
 import services.hotels.HotelsService
 import upickle.{Js, json}
-import upickle.default._
+
 import scala.concurrent.ExecutionContext.Implicits.global
+
 
 @Singleton
 class HotelsController @Inject()(hotelsService: HotelsService, webJarAssets: WebJarAssets) extends InjectedController {
@@ -29,12 +31,7 @@ class HotelsController @Inject()(hotelsService: HotelsService, webJarAssets: Web
   }
 
 
-  object ApiServer extends autowire.Server[Js.Value, Reader, Writer] {
-    def read[Result: Reader](p: Js.Value) = upickle.default.readJs[Result](p)
-    def write[Result: Writer](r: Result) = upickle.default.writeJs(r)
-  }
-
-  def api(path: String) = Action.async{ implicit req =>
+  def api(path: String) = Action.async { implicit req =>
 
     val body = req.body.asText.getOrElse("")
 

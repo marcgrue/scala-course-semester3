@@ -8,16 +8,14 @@ lazy val commonSettings = Seq(
     scalaVersion := "2.12.2"
 )
 
-lazy val server = project.enablePlugins(PlayScala).settings(
+lazy val server = project.settings(
     commonSettings,
     name := "play-scala-server",
     libraryDependencies ++= Seq(
-        jdbc,
-        cache,
         ws,
         guice,
         "com.typesafe.play" %% "play-json" % "2.6.0",
-        "com.vmunier" %% "scalajs-scripts" % "1.1.0",
+        "com.vmunier" %% "scalajs-scripts" % "1.1.1",
         "org.webjars" %% "webjars-play" % "2.6.0-M1",
         "org.webjars" % "bootstrap" % "3.3.7",
         "org.webjars" % "animate.css" % "3.5.2",
@@ -28,6 +26,7 @@ lazy val server = project.enablePlugins(PlayScala).settings(
     pipelineStages in Assets := Seq(scalaJSPipeline),
     compile in Compile := ((compile in Compile) dependsOn scalaJSPipeline).value
 ).dependsOn(sharedJvm)
+  .enablePlugins(PlayScala)
 
 lazy val shared = crossProject.crossType(CrossType.Pure).settings(
     name := "shared",
@@ -35,21 +34,16 @@ lazy val shared = crossProject.crossType(CrossType.Pure).settings(
     libraryDependencies ++= Seq(
         "com.lihaoyi" %%% "upickle" % "0.4.4",
         "com.lihaoyi" %%% "autowire" % "0.2.6",
-        "com.lihaoyi" %%% "scalatags" % "0.6.3",
+        "com.lihaoyi" %%% "scalatags" % "0.6.7",
         "com.typesafe.play" %% "play-json" % "2.6.0"
     )
-).jsConfigure(_ enablePlugins ScalaJSWeb)
-  .enablePlugins(SbtTwirl)
-  .settings(
-      sourceDirectories in (Compile, TwirlKeys.compileTemplates) +=
-        (baseDirectory.value.getParentFile / "src" / "main" / "scala")
-  )
+).enablePlugins(SbtTwirl)
 
 lazy val sharedJvm = shared.jvm
 lazy val sharedJs = shared.js
 
 
-lazy val client = project.enablePlugins(ScalaJSPlugin, ScalaJSWeb).settings(
+lazy val client = project.settings(
     commonSettings,
     mainClass in Compile := Some("App"),
     emitSourceMaps in fullOptJS := true,
@@ -57,12 +51,12 @@ lazy val client = project.enablePlugins(ScalaJSPlugin, ScalaJSWeb).settings(
         "org.scala-js" %%% "scalajs-dom" % "0.9.1",
         "com.lihaoyi" %%% "autowire" % "0.2.6",
         "com.lihaoyi" %%% "upickle" % "0.4.4",
-        "com.lihaoyi" %%% "scalatags" % "0.6.3",
+        "com.lihaoyi" %%% "scalatags" % "0.6.7",
         "be.doeraene" %%% "scalajs-jquery" % "0.9.1",
         "com.typesafe.play" %% "play-json" % "2.6.0"
     )
 ).dependsOn(sharedJs)
-
+  .enablePlugins(ScalaJSPlugin)
 
 lazy val populateCatalogueCache = taskKey[Unit]("Populate conf/example-hotels with some PCS properties")
 
