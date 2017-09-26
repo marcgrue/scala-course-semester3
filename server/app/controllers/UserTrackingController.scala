@@ -36,6 +36,7 @@ object LiveUsers {
     counts += destination -> (counts(destination) - 1)
 }
 
+
 class UserActor(out: ActorRef) extends Actor {
   Logger.info(s"WebSocket created: $out")
 

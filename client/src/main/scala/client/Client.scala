@@ -1,4 +1,4 @@
-package fss
+package client
 
 import org.scalajs.dom.ext.Ajax
 import upickle.Js.Obj

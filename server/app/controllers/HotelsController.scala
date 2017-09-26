@@ -21,7 +21,8 @@ class HotelsController @Inject()(hotelsService: HotelsService, webJarAssets: Web
     if (distance > 0) {
       Ok(
         views.html.searchResults(
-          destination, radius,
+          destination,
+          radius,
           hotelsService.search(destination, distance)
         )(webJarAssets)
       )

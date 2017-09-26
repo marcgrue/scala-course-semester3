@@ -1,4 +1,4 @@
-package fss
+package client
 
 import autowire._
 import org.scalajs.dom.document.location
@@ -7,11 +7,10 @@ import org.scalajs.dom.{Event, document, _}
 import services.hotels.HotelsService
 
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
 @JSExportTopLevel("App")
-class App extends JSApp {
+object App {
 
   def hotelsTables() = document.querySelector("table")
   def destination() = document.getElementById("destination").asInstanceOf[Input]

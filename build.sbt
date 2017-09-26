@@ -28,6 +28,7 @@ lazy val server = project.settings(
 ).dependsOn(sharedJvm)
   .enablePlugins(PlayScala)
 
+
 lazy val shared = crossProject.crossType(CrossType.Pure).settings(
     name := "shared",
     commonSettings,
@@ -45,8 +46,6 @@ lazy val sharedJs = shared.js
 
 lazy val client = project.settings(
     commonSettings,
-    mainClass in Compile := Some("App"),
-    emitSourceMaps in fullOptJS := true,
     libraryDependencies ++= Seq(
         "org.scala-js" %%% "scalajs-dom" % "0.9.1",
         "com.lihaoyi" %%% "autowire" % "0.2.6",

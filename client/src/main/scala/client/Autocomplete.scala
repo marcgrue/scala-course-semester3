@@ -1,4 +1,4 @@
-package fss
+package client
 
 import org.scalajs.dom.ext.PimpedHtmlCollection
 import org.scalajs.dom.html.{Input, UList}
