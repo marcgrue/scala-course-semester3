@@ -14,7 +14,24 @@ import scala.concurrent.ExecutionContext.Implicits.global
 @Singleton
 class HotelsController @Inject()(hotelsService: HotelsService, webJarAssets: WebJarAssets) extends InjectedController {
 
+
   def search(destination: String, radius: String) = Action {
+
+    val distance = radius.toDouble
+
+    if (distance > 0) {
+      Ok(
+        pages.SearchResults(
+          destination,
+          radius,
+          hotelsService.search(destination, distance))(webJarAssets)
+      ).as("text/html")
+    } else {
+      BadRequest("Invalid distance")
+    }
+  }
+
+  def searchTwirl(destination: String, radius: String) = Action {
 
     val distance = radius.toDouble
 
@@ -30,7 +47,6 @@ class HotelsController @Inject()(hotelsService: HotelsService, webJarAssets: Web
       BadRequest("Invalid distance")
     }
   }
-
 
   def api(path: String) = Action.async { implicit req =>
 

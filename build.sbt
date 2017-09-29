@@ -39,6 +39,11 @@ lazy val shared = crossProject.crossType(CrossType.Pure).settings(
         "com.typesafe.play" %% "play-json" % "2.6.0"
     )
 ).enablePlugins(SbtTwirl)
+//  .jsConfigure(_ enablePlugins ScalaJSWeb)
+//    .settings(
+//        sourceDirectories in (Compile, TwirlKeys.compileTemplates) +=
+//          (baseDirectory.value.getParentFile / "src" / "main" / "scala")
+//    )
 
 lazy val sharedJvm = shared.jvm
 lazy val sharedJs = shared.js
